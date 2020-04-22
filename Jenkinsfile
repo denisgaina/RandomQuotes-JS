@@ -20,6 +20,7 @@ pipeline {
         success {
             script{
                 sh "npm test"
+                cleanWs()
             }
         }
     }
