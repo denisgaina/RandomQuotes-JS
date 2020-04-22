@@ -1,14 +1,37 @@
 pipeline {
-    agent any
+    environment {
+        GIT_REPO = "https://github.com/denisgaina/RandomQuotes-JS.git"
+        BRANCH = "master"
+    }
+
+    agent {
+        label "Linux" 
+    }
+    
     stages {
-        stage('Build') {
+        stage ("Clean workspace") {
             steps {
-                sh 'npm install'
+                cleanWs()
             }
         }
-        stage('Test') {
+
+        stage ("Get sources") {
             steps {
-                sh 'npm test'
+                git branch: "${BRANCH}", url: "${GIT_REPO}"
+            }
+        }
+
+        stage ("Build") {
+            steps {
+                sh "npm install"
+            }
+        }
+    }
+
+    post {
+        success {
+            script{
+                sh "npm test"
             }
         }
     }
