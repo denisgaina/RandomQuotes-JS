@@ -9,18 +9,6 @@ pipeline {
     }
     
     stages {
-        stage ("Clean workspace") {
-            steps {
-                cleanWs()
-            }
-        }
-
-        stage ("Get sources") {
-            steps {
-                git branch: "${BRANCH}", url: "${GIT_REPO}"
-            }
-        }
-
         stage ("Build") {
             steps {
                 sh "npm install"
